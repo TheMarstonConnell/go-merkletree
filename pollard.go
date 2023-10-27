@@ -19,15 +19,15 @@ import (
 	"github.com/wealdtech/go-merkletree/blake2b"
 )
 
-// VerifyPollard ensures that the branches in the pollard match up with the root using the default hash type.
+// VerifyPollard ensures that the branches in the pollard match up with the root using the default Hash type.
 func VerifyPollard(pollard [][]byte) bool {
 	return VerifyPollardUsing(pollard, blake2b.New())
 }
 
-// VerifyPollardUsing ensures that the branches in the pollard match up with the root using the supplied hash type.
+// VerifyPollardUsing ensures that the branches in the pollard match up with the root using the supplied Hash type.
 func VerifyPollardUsing(pollard [][]byte, hashType HashType) bool {
 	if len(pollard) == 1 {
-		// If there is only a single hash it is automatically correct
+		// If there is only a single Hash it is automatically correct
 		return true
 	}
 	for i := len(pollard)/2 - 1; i >= 0; i-- {

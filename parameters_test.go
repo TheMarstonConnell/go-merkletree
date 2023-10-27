@@ -11,11 +11,11 @@ func TestTreeParameters(t *testing.T) {
 		WithHashType(nil),
 	)
 	assert.Nil(t, p, "prams should be nil on error")
-	assert.Equal(t, err.Error(), "no hash type specified")
+	assert.Equal(t, err.Error(), "no Hash type specified")
 
 	p, err = parseAndCheckTreeParameters()
 	assert.Nil(t, p, "prams should be nil on error")
-	assert.Equal(t, err.Error(), "tree must have at least 1 piece of data")
+	assert.Equal(t, err.Error(), "tree must have at least 1 piece of Data")
 
 	p, err = parseAndCheckTreeParameters(
 		WithData([][]byte{{'a'}}),
@@ -42,7 +42,7 @@ func TestTreeParameters(t *testing.T) {
 		WithHashType(nil),
 	)
 	assert.Nil(t, p, "prams should be nil on error")
-	assert.Equal(t, err.Error(), "no hash type specified")
+	assert.Equal(t, err.Error(), "no Hash type specified")
 
 	p, err = parseAndCheckMultiProofParameters()
 	assert.Nil(t, p, "prams should be nil on error")
@@ -60,5 +60,5 @@ func TestTreeParameters(t *testing.T) {
 		WithData([][]byte{{'a'}}),
 	)
 	assert.Nil(t, p, "prams should be nil on error")
-	assert.Equal(t, err.Error(), "proof does not use the data parameter")
+	assert.Equal(t, err.Error(), "proof does not use the Data parameter")
 }

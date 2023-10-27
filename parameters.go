@@ -40,7 +40,7 @@ func (f parameterFunc) apply(p *parameters) {
 	f(p)
 }
 
-// WithData sets the data for the merkle tree.
+// WithData sets the Data for the merkle tree.
 func WithData(data [][]byte) Parameter {
 	return parameterFunc(func(p *parameters) {
 		p.data = data
@@ -68,21 +68,21 @@ func WithIndices(indices []uint64) Parameter {
 	})
 }
 
-// WithSalt sets the salt for the merkle tree or proof.
+// WithSalt sets the Salt for the merkle tree or proof.
 func WithSalt(salt bool) Parameter {
 	return parameterFunc(func(p *parameters) {
 		p.salt = salt
 	})
 }
 
-// WithSorted sets the sorted for the merkle tree.
+// WithSorted sets the Sorted for the merkle tree.
 func WithSorted(sorted bool) Parameter {
 	return parameterFunc(func(p *parameters) {
 		p.sorted = sorted
 	})
 }
 
-// WithHashType sets the hash type for the merkle tree or proof.
+// WithHashType sets the Hash type for the merkle tree or proof.
 func WithHashType(hash HashType) Parameter {
 	return parameterFunc(func(p *parameters) {
 		p.hash = hash
@@ -101,10 +101,10 @@ func parseAndCheckTreeParameters(params ...Parameter) (*parameters, error) {
 	}
 
 	if parameters.hash == nil {
-		return nil, errors.New("no hash type specified")
+		return nil, errors.New("no Hash type specified")
 	}
 	if len(parameters.data) == 0 {
-		return nil, errors.New("tree must have at least 1 piece of data")
+		return nil, errors.New("tree must have at least 1 piece of Data")
 	}
 
 	if parameters.values != 0 {
@@ -132,7 +132,7 @@ func parseAndCheckMultiProofParameters(params ...Parameter) (*parameters, error)
 	}
 
 	if parameters.hash == nil {
-		return nil, errors.New("no hash type specified")
+		return nil, errors.New("no Hash type specified")
 	}
 	if parameters.values == 0 {
 		return nil, errors.New("no values specified")
@@ -143,7 +143,7 @@ func parseAndCheckMultiProofParameters(params ...Parameter) (*parameters, error)
 	}
 
 	if len(parameters.data) != 0 {
-		return nil, errors.New("proof does not use the data parameter")
+		return nil, errors.New("proof does not use the Data parameter")
 	}
 
 	return &parameters, nil

@@ -25,12 +25,12 @@ import (
 type MultiProof struct {
 	// Values is the number of values in the Merkle tree.
 	Values uint64
-	// Hashes are indexed hashes of values that cannot be calculated from the index data
+	// Hashes are indexed hashes of values that cannot be calculated from the index Data
 	Hashes map[uint64][]byte
-	// Indices are the indices of the data that can be proved with the hashes
+	// Indices are the indices of the Data that can be proved with the hashes
 	Indices []uint64
 	salt    bool
-	// if sorted is true, the hash values are sorted before hashing branch nodes
+	// if sorted is true, the hash values are sorted before hashing branch Nodes
 	sorted bool
 	hash   HashType
 }
@@ -88,8 +88,8 @@ func (p *MultiProof) Verify(data [][]byte, root []byte) (bool, error) {
 	return bytes.Equal(p.Hashes[1], root), nil
 }
 
-// VerifyMultiProof verifies multiple Merkle tree proofs for pieces of data using the default hash type.
-// The proof and path are as per Merkle tree's GenerateProof(), and root is the root hash of the tree against which the proof is to
+// VerifyMultiProof verifies multiple Merkle tree proofs for pieces of Data using the default Hash type.
+// The proof and path are as per Merkle tree's GenerateProof(), and root is the root Hash of the tree against which the proof is to
 // be verified.  Note that this does not require the Merkle tree to verify the proof, only its root; this allows for checking
 // against historical trees without having to instantiate them.
 //
@@ -100,8 +100,8 @@ func VerifyMultiProof(data [][]byte, salt bool, proof *MultiProof, root []byte) 
 	return VerifyMultiProofUsing(data, salt, proof, root, blake2b.New())
 }
 
-// VerifyMultiProofUsing verifies multiple Merkle tree proofs for pieces of data using the provided hash type.
-// The proof and is as per Merkle tree's GenerateProof(), and root is the root hash of the tree against which the proof is to
+// VerifyMultiProofUsing verifies multiple Merkle tree proofs for pieces of Data using the provided Hash type.
+// The proof and is as per Merkle tree's GenerateProof(), and root is the root Hash of the tree against which the proof is to
 // be verified.  Note that this does not require the Merkle tree to verify the proof, only its root; this allows for checking
 // against historical trees without having to instantiate them.
 //

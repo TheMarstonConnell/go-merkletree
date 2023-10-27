@@ -34,26 +34,26 @@ func TestMultiProof(t *testing.T) {
 				WithSorted(test.sorted),
 			)
 			assert.Nil(t, err, fmt.Sprintf("failed to create tree at test %d", i))
-			// Test proof for each data item individually
+			// Test proof for each Data item individually
 			for j, data := range test.data {
 				proof, err := tree.GenerateMultiProof([][]byte{data})
-				assert.Nil(t, err, fmt.Sprintf("failed to create multiproof at test %d data %d", i, j))
+				assert.Nil(t, err, fmt.Sprintf("failed to create multiproof at test %d Data %d", i, j))
 				proven, err := proof.Verify([][]byte{data}, tree.Root())
-				assert.Nil(t, err, fmt.Sprintf("error verifying multiproof at test %d data %d", i, j))
-				assert.True(t, proven, fmt.Sprintf("failed to verify multiproof at test %d data %d", i, j))
+				assert.Nil(t, err, fmt.Sprintf("error verifying multiproof at test %d Data %d", i, j))
+				assert.True(t, proven, fmt.Sprintf("failed to verify multiproof at test %d Data %d", i, j))
 			}
-			// Test proof for each data item cumulatively.
+			// Test proof for each Data item cumulatively.
 			var proof *MultiProof
 			for j, data := range test.data {
 				if j == 0 {
 					proof, err = tree.GenerateMultiProof([][]byte{data})
-					assert.Nil(t, err, fmt.Sprintf("failed to create multiproof at test %d data %d", i, j))
+					assert.Nil(t, err, fmt.Sprintf("failed to create multiproof at test %d Data %d", i, j))
 				}
 				proven, err := proof.Verify([][]byte{data}, tree.Root())
-				assert.Nil(t, err, fmt.Sprintf("error verifying multiproof at test %d data %d", i, j))
-				assert.True(t, proven, fmt.Sprintf("failed to verify multiproof at test %d data %d", i, j))
+				assert.Nil(t, err, fmt.Sprintf("error verifying multiproof at test %d Data %d", i, j))
+				assert.True(t, proven, fmt.Sprintf("failed to verify multiproof at test %d Data %d", i, j))
 			}
-			// Test proof for all data
+			// Test proof for all Data
 			proof, err = tree.GenerateMultiProof(test.data)
 			assert.Nil(t, err, fmt.Sprintf("failed to create multiproof at test %d", i))
 			proven, err := proof.Verify(test.data, tree.Root())
@@ -73,7 +73,7 @@ func TestMissingMultiProof(t *testing.T) {
 			)
 			assert.Nil(t, err, fmt.Sprintf("failed to create tree at test %d", i))
 			_, err = tree.GenerateMultiProof(missingData)
-			assert.Equal(t, err.Error(), "data not found")
+			assert.Equal(t, err.Error(), "Data not found")
 		}
 	}
 }

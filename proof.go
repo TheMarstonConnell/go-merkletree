@@ -34,8 +34,8 @@ func newProof(hashes [][]byte, index uint64) *Proof {
 	}
 }
 
-// VerifyProof verifies a Merkle tree proof for a piece of data using the default hash type.
-// The proof and path are as per Merkle tree's GenerateProof(), and root is the root hash of the tree against which the proof is to
+// VerifyProof verifies a Merkle tree proof for a piece of Data using the default Hash type.
+// The proof and path are as per Merkle tree's GenerateProof(), and root is the root Hash of the tree against which the proof is to
 // be verified.  Note that this does not require the Merkle tree to verify the proof, only its root; this allows for checking
 // against historical trees without having to instantiate them.
 //
@@ -44,8 +44,8 @@ func VerifyProof(data []byte, salt bool, proof *Proof, pollard [][]byte) (bool, 
 	return VerifyProofUsing(data, salt, proof, pollard, blake2b.New())
 }
 
-// VerifyProofUsing verifies a Merkle tree proof for a piece of data using the provided hash type.
-// The proof and is as per Merkle tree's GenerateProof(), and root is the root hash of the tree against which the proof is to
+// VerifyProofUsing verifies a Merkle tree proof for a piece of Data using the provided Hash type.
+// The proof and is as per Merkle tree's GenerateProof(), and root is the root Hash of the tree against which the proof is to
 // be verified.  Note that this does not require the Merkle tree to verify the proof, only its root; this allows for checking
 // against historical trees without having to instantiate them.
 //

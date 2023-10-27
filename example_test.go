@@ -34,7 +34,7 @@ func ExampleMerkleTree() {
 		panic(err)
 	}
 
-	// Fetch the root hash of the tree
+	// Fetch the root Hash of the tree
 	root := tree.Root()
 
 	baz := data[2]

@@ -50,8 +50,8 @@ func TestDOTProof(t *testing.T) {
 				for k := range test.proofDots[j] {
 					if test.proofDots[j][k] != "" {
 						proof, err := tree.GenerateProof(test.data[j], k)
-						assert.Nil(t, err, fmt.Sprintf("failed to create proof at test %d depth %d data %d", i, j, k))
-						assert.Equal(t, test.proofDots[j][k], tree.DOTProof(proof, new(StringFormatter), nil), fmt.Sprintf("incorrect proof DOT representation at test %d depth %d data %d", i, j, k))
+						assert.Nil(t, err, fmt.Sprintf("failed to create proof at test %d depth %d Data %d", i, j, k))
+						assert.Equal(t, test.proofDots[j][k], tree.DOTProof(proof, new(StringFormatter), nil), fmt.Sprintf("incorrect proof DOT representation at test %d depth %d Data %d", i, j, k))
 					}
 				}
 			}

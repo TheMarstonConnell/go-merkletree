@@ -36,37 +36,37 @@ func _byteArray(input string) []byte {
 }
 
 var tests = []struct {
-	// hash type to use
+	// Hash type to use
 	hashType HashType
-	// data to create the node
+	// Data to create the node
 	data [][]byte
 	// expected error when attempting to create the tree
 	createErr error
-	// root hash after the tree has been created
+	// root Hash after the tree has been created
 	root []byte
 	// pollards after the tree has been created
 	pollards [][][]byte
 	// DOT representation of tree
 	dot string
-	// DOT representation of tree for each data with proof at levels 0 through 3
+	// DOT representation of tree for each Data with proof at levels 0 through 3
 	proofDots [][]string
-	// DOT representation of tree with multiproof for all data
+	// DOT representation of tree with multiproof for all Data
 	multiProofDot string
-	// salt the data?
+	// Salt the Data?
 	salt bool
-	// should the hashes be sorted?
+	// should the hashes be Sorted?
 	sorted bool
-	// saltedRoot hash after the tree has been created with the salt
+	// saltedRoot Hash after the tree has been created with the Salt
 	saltedRoot []byte
 }{
 	{ // 0
 		hashType:  blake2b.New(),
-		createErr: errors.New("problem with parameters: tree must have at least 1 piece of data"),
+		createErr: errors.New("problem with parameters: tree must have at least 1 piece of Data"),
 	},
 	{ // 1
 		hashType:  blake2b.New(),
 		data:      [][]byte{},
-		createErr: errors.New("problem with parameters: tree must have at least 1 piece of data"),
+		createErr: errors.New("problem with parameters: tree must have at least 1 piece of Data"),
 	},
 	{ // 2
 		hashType: blake2b.New(),
@@ -285,7 +285,7 @@ var tests = []struct {
 		salt:       true,
 		saltedRoot: _byteArray("0x9c68ec06cd268662d643706a29bf697d6873edff158895aee0b33df3ff741bcc17f1886a4a13408588c1428cd1b3455c1c0b800d304cebffb1aeb5941fe50af8"),
 	},
-	{ // 10 - Simple sorted no change
+	{ // 10 - Simple Sorted no change
 		hashType: sha3.New256(),
 		data: [][]byte{
 			[]byte("Foo"),
@@ -295,7 +295,7 @@ var tests = []struct {
 		dot:    `digraph MerkleTree {rankdir = TB;node [shape=rectangle margin="0.2,0.2"];"Foo" [shape=oval];"Foo"->2;2 [label="195e…278a"];2->1;"Bar" [shape=oval];"Bar"->3;3 [label="65a0…1755"];2->3 [style=invisible arrowhead=none];3->1;{rank=same;2;3};1 [label="bd5d…dd35"];}`,
 		sorted: true,
 	},
-	{ // 11 - Simple sorted swapped
+	{ // 11 - Simple Sorted swapped
 		hashType: sha3.New256(),
 		data: [][]byte{
 			[]byte("Bar"),
@@ -305,7 +305,7 @@ var tests = []struct {
 		dot:    `digraph MerkleTree {rankdir = TB;node [shape=rectangle margin="0.2,0.2"];"Foo" [shape=oval];"Foo"->2;2 [label="195e…278a"];2->1;"Bar" [shape=oval];"Bar"->3;3 [label="65a0…1755"];2->3 [style=invisible arrowhead=none];3->1;{rank=same;2;3};1 [label="bd5d…dd35"];}`,
 		sorted: true,
 	},
-	{ // 12 - Complicated sorted
+	{ // 12 - Complicated Sorted
 		hashType: sha3.New256(),
 		data: [][]byte{
 			[]byte("Foo"),

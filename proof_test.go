@@ -31,10 +31,10 @@ func TestProof(t *testing.T) {
 			assert.Nil(t, err, fmt.Sprintf("failed to create tree at test %d", i))
 			for j, data := range test.data {
 				proof, err := tree.GenerateProof(data, 0)
-				assert.Nil(t, err, fmt.Sprintf("failed to create proof at test %d data %d", i, j))
+				assert.Nil(t, err, fmt.Sprintf("failed to create proof at test %d Data %d", i, j))
 				proven, err := VerifyProofUsing(data, false, proof, [][]byte{tree.Root()}, test.hashType)
 				assert.Nil(t, err, fmt.Sprintf("error verifying proof at test %d", i))
-				assert.True(t, proven, fmt.Sprintf("failed to verify proof at test %d data %d", i, j))
+				assert.True(t, proven, fmt.Sprintf("failed to verify proof at test %d Data %d", i, j))
 			}
 		}
 	}
@@ -49,14 +49,14 @@ func TestSaltedProof(t *testing.T) {
 				WithSalt(test.salt),
 			)
 			assert.Nil(t, err, fmt.Sprintf("failed to create tree at test %d", i))
-			assert.Equal(t, test.salt, tree.Salt(), fmt.Sprintf("unexpected salt at test %d", i))
+			assert.Equal(t, test.salt, tree.GetSalt(), fmt.Sprintf("unexpected Salt at test %d", i))
 			assert.Equal(t, test.saltedRoot, tree.Root(), fmt.Sprintf("unexpected root at test %d", i))
 			for j, data := range test.data {
 				proof, err := tree.GenerateProof(data, 0)
-				assert.Nil(t, err, fmt.Sprintf("failed to create proof at test %d data %d", i, j))
+				assert.Nil(t, err, fmt.Sprintf("failed to create proof at test %d Data %d", i, j))
 				proven, err := VerifyProofUsing(data, test.salt, proof, [][]byte{tree.Root()}, test.hashType)
 				assert.Nil(t, err, fmt.Sprintf("error verifying proof at test %d", i))
-				assert.True(t, proven, fmt.Sprintf("failed to verify proof at test %d data %d", i, j))
+				assert.True(t, proven, fmt.Sprintf("failed to verify proof at test %d Data %d", i, j))
 			}
 		}
 	}
@@ -73,12 +73,12 @@ func TestPollardProof(t *testing.T) {
 			for j, data := range test.data {
 				for k := range test.pollards {
 					pollard := tree.Pollard(k)
-					assert.Equal(t, test.pollards[k], pollard, fmt.Sprintf("failed to create pollard at test %d data %d pollard %d", i, j, k))
+					assert.Equal(t, test.pollards[k], pollard, fmt.Sprintf("failed to create pollard at test %d Data %d pollard %d", i, j, k))
 					proof, err := tree.GenerateProof(data, k)
-					assert.Nil(t, err, fmt.Sprintf("failed to create proof at test %d data %d pollard %d", i, j, k))
+					assert.Nil(t, err, fmt.Sprintf("failed to create proof at test %d Data %d pollard %d", i, j, k))
 					proven, err := VerifyProofUsing(data, false, proof, pollard, test.hashType)
-					assert.Nil(t, err, fmt.Sprintf("error verifying proof at test %d data %d pollard %d", i, j, k))
-					assert.True(t, proven, fmt.Sprintf("failed to verify proof at test %d data %d pollard %d", i, j, k))
+					assert.Nil(t, err, fmt.Sprintf("error verifying proof at test %d Data %d pollard %d", i, j, k))
+					assert.True(t, proven, fmt.Sprintf("failed to verify proof at test %d Data %d pollard %d", i, j, k))
 				}
 			}
 		}
@@ -95,7 +95,7 @@ func TestMissingProof(t *testing.T) {
 			)
 			assert.Nil(t, err, fmt.Sprintf("failed to create tree at test %d", i))
 			_, err = tree.GenerateProof(missingData, 0)
-			assert.Equal(t, err.Error(), "data not found")
+			assert.Equal(t, err.Error(), "Data not found")
 		}
 	}
 }
@@ -110,11 +110,11 @@ func TestBadProof(t *testing.T) {
 			assert.Nil(t, err, fmt.Sprintf("failed to create tree at test %d", i))
 			for j, data := range test.data {
 				proof, err := tree.GenerateProof(data, 0)
-				assert.Nil(t, err, fmt.Sprintf("failed to create proof at test %d data %d", i, j))
+				assert.Nil(t, err, fmt.Sprintf("failed to create proof at test %d Data %d", i, j))
 				copy(proof.Hashes[0], []byte{0x0b, 0xad, 0x0b, 0xad, 0x0b, 0xad, 0x0b, 0xad, 0x0b, 0xad, 0x0b, 0xad, 0x0b, 0xad, 0x0b, 0xad, 0x0b, 0xad, 0x0b, 0xad, 0x0b, 0xad, 0x0b, 0xad, 0x0b, 0xad, 0x0b, 0xad, 0x0b, 0xad, 0x0b, 0xad})
 				proven, err := VerifyProofUsing(data, false, proof, [][]byte{tree.Root()}, test.hashType)
-				assert.Nil(t, err, fmt.Sprintf("error verifying proof at test %d data %d", i, j))
-				assert.False(t, proven, fmt.Sprintf("incorrectly verified proof at test %d data %d", i, j))
+				assert.Nil(t, err, fmt.Sprintf("error verifying proof at test %d Data %d", i, j))
+				assert.False(t, proven, fmt.Sprintf("incorrectly verified proof at test %d Data %d", i, j))
 			}
 		}
 	}
@@ -142,7 +142,7 @@ func TestProofRandom(t *testing.T) {
 	assert.Nil(t, err, "failed to create tree")
 	for i := range data {
 		proof, err := tree.GenerateProof(data[i], 0)
-		assert.Nil(t, err, fmt.Sprintf("failed to create proof at data %d", i))
+		assert.Nil(t, err, fmt.Sprintf("failed to create proof at Data %d", i))
 		proven, err := VerifyProof(data[i], false, proof, [][]byte{tree.Root()})
 		assert.Nil(t, err, fmt.Sprintf("error verifying proof at test %d", i))
 		assert.True(t, proven, fmt.Sprintf("failed to verify proof at test %d", i))
