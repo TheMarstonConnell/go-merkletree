@@ -39,9 +39,10 @@ func (h *SHA512) HashName() string {
 
 // Hash generates a SHA3 hash from input byte arrays.
 func (h *SHA512) Hash(data ...[]byte) []byte {
-	var hash [_512hashlength]byte
+	hw := sha3.New512()
+
 	if len(data) == 1 {
-		hash = sha3.Sum512(data[0])
+		hw.Write(data[0])
 	} else {
 		concatDataLen := 0
 		for _, d := range data {
@@ -53,8 +54,8 @@ func (h *SHA512) Hash(data ...[]byte) []byte {
 			copy(concatData[curOffset:], d)
 			curOffset += len(d)
 		}
-		hash = sha3.Sum512(concatData)
+		hw.Write(concatData)
 	}
 
-	return hash[:]
+	return hw.Sum(nil)
 }
