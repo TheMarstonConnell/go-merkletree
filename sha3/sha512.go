@@ -13,9 +13,7 @@
 
 package sha3
 
-import (
-	"golang.org/x/crypto/sha3"
-)
+import "crypto/sha512"
 
 const _512hashlength = 64
 
@@ -39,10 +37,9 @@ func (h *SHA512) HashName() string {
 
 // Hash generates a SHA3 hash from input byte arrays.
 func (h *SHA512) Hash(data ...[]byte) []byte {
-	hw := sha3.New512()
-
+	hh := sha512.New512_256()
 	if len(data) == 1 {
-		hw.Write(data[0])
+		hh.Write(data[0])
 	} else {
 		concatDataLen := 0
 		for _, d := range data {
@@ -54,8 +51,8 @@ func (h *SHA512) Hash(data ...[]byte) []byte {
 			copy(concatData[curOffset:], d)
 			curOffset += len(d)
 		}
-		hw.Write(concatData)
+		hh.Write(concatData)
 	}
 
-	return hw.Sum(nil)
+	return hh.Sum(nil)
 }
