@@ -11,36 +11,46 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package sha3_test
+package poseidon_test
 
 import (
+	"encoding/hex"
 	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/wealdtech/go-merkletree/v2/sha3"
+	"github.com/wealdtech/go-merkletree/v2/poseidon"
 )
 
-func Test512Hash(t *testing.T) {
+// _byteArray is a helper to turn a string in to a byte array
+func _byteArray(input string) []byte {
+	x, err := hex.DecodeString(input)
+	if err != nil {
+		panic(err)
+	}
+	return x
+}
+
+func TestHash(t *testing.T) {
 	tests := []struct {
 		data   []byte
 		output []byte
 	}{
 		{
 			data:   _byteArray("e9e0083e456539e9f6336164cd98700e668178f98af147ef750eb90afcf2f637"),
-			output: _byteArray("9744850fc1d693a3cba541f9367a8eb4c736bcd24dc97db3e4d2c9e99c771fdc8cff9ae752eaa99ca969def7d5c38a844ce55edb9b12b9a9408c62732a59ce6b"),
+			output: _byteArray("05c26e4fd0b4cbf27aa04a2f7934afc086bfb20e9d431f7c50b7e5cc5ea07a02"),
 		},
 	}
 
-	hash := sha3.New512()
-	assert.Equal(t, "sha512", hash.HashName())
+	hash := poseidon.New()
+	assert.Equal(t, "poseidon", hash.HashName())
 	for i, test := range tests {
 		output := hash.Hash(test.data)
 		assert.Equal(t, test.output, output, fmt.Sprintf("failed at test %d", i))
 	}
 }
 
-func TestMulti512Hash(t *testing.T) {
+func TestMultiHash(t *testing.T) {
 	tests := []struct {
 		data1  []byte
 		data2  []byte
@@ -48,18 +58,42 @@ func TestMulti512Hash(t *testing.T) {
 		data4  []byte
 		output []byte
 	}{
-		{ // 0
+		{
 			data1:  _byteArray("e9e0083e456539e9"),
 			data2:  _byteArray("f6336164cd98700e"),
 			data3:  _byteArray("668178f98af147ef"),
 			data4:  _byteArray("750eb90afcf2f637"),
-			output: _byteArray("9744850fc1d693a3cba541f9367a8eb4c736bcd24dc97db3e4d2c9e99c771fdc8cff9ae752eaa99ca969def7d5c38a844ce55edb9b12b9a9408c62732a59ce6b"),
+			output: _byteArray("05c26e4fd0b4cbf27aa04a2f7934afc086bfb20e9d431f7c50b7e5cc5ea07a02"),
 		},
 	}
 
-	hash := sha3.New512()
+	hash := poseidon.New()
 	for i, test := range tests {
 		output := hash.Hash(test.data1, test.data2, test.data3, test.data4)
 		assert.Equal(t, test.output, output, fmt.Sprintf("failed at test %d", i))
+	}
+}
+
+func TestPadding(t *testing.T) {
+	tests := []struct {
+		data   []byte
+		output []byte
+	}{
+		{
+			data:   _byteArray("e9e0083e"),
+			output: _byteArray("05c614a428f9a323d3090ba3598d2add459d62a7b49aa293e4ab658225d3e615"),
+		},
+	}
+
+	hash := poseidon.New()
+	for i, test := range tests {
+		output := hash.Hash(test.data)
+		assert.Equal(t, test.output, output, fmt.Sprintf("failed at test %d", i))
+
+		// Padded data should not result in the same hash
+		paddedData := make([]byte, 32)
+		copy(paddedData, test.data)
+		paddedOutput := hash.Hash(paddedData)
+		assert.NotEqual(t, test.output, paddedOutput, fmt.Sprintf("hash of %x same as hash of %x", test.data, paddedData))
 	}
 }
