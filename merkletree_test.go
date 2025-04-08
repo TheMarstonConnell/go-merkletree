@@ -18,9 +18,11 @@ import (
 	"encoding/hex"
 	"errors"
 	"fmt"
-	"github.com/stretchr/testify/require"
 	"strings"
 	"testing"
+
+	"github.com/stretchr/testify/require"
+	"github.com/wealdtech/go-merkletree/v2/poseidon"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/wealdtech/go-merkletree/v2/blake2b"
@@ -389,12 +391,11 @@ func benchmarkMerkleWithSize(chunkSize int, count int, hash HashType, b *testing
 		WithHashType(hash),
 	)
 	r.NoError(err)
-
 }
 
 func BenchmarkMerkle(b *testing.B) {
 	sizes := []int{10, 20, 50, 100}
-	hashType := []HashType{sha3.New256(), sha3.New512(), blake2b.New(), keccak256.New()}
+	hashType := []HashType{sha3.New256(), sha3.New512(), blake2b.New(), keccak256.New(), poseidon.New()}
 	chunkSizes := []int{
 		1,           // 1 byte
 		1024,        // 1 kib
@@ -414,5 +415,4 @@ func BenchmarkMerkle(b *testing.B) {
 			}
 		}
 	}
-
 }
