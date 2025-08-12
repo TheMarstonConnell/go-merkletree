@@ -24,6 +24,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"github.com/wealdtech/go-merkletree/v2/blake2b"
+	"github.com/wealdtech/go-merkletree/v2/blake3"
 	"github.com/wealdtech/go-merkletree/v2/keccak256"
 	"github.com/wealdtech/go-merkletree/v2/sha3"
 )
@@ -392,14 +393,15 @@ func benchmarkMerkleWithSize(chunkSize int, count int, hash HashType, b *testing
 }
 
 func BenchmarkMerkle(b *testing.B) {
-	sizes := []int{10, 20, 50, 100}
-	hashType := []HashType{sha3.New256(), sha3.New512(), blake2b.New(), keccak256.New()}
+	sizes := []int{10, 20, 50, 100, 1000}
+	hashType := []HashType{sha3.New256(), sha3.New512(), blake2b.New(), blake3.New(), keccak256.New()}
 	chunkSizes := []int{
-		1,           // 1 byte
-		1024,        // 1 kib
-		1024 * 10,   // 10 kb
-		1024 * 100,  // 100 kb
-		1024 * 1024, // 1 mib
+		1,                // 1 byte
+		1024,             // 1 kib
+		1024 * 10,        // 10 kb
+		1024 * 100,       // 100 kb
+		1024 * 1024,      // 1 mib
+		1024 * 1024 * 10, // 10 mib
 	}
 
 	for _, chunkSize := range chunkSizes {
