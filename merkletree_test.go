@@ -385,23 +385,24 @@ func benchmarkMerkleWithSize(chunkSize int, count int, hash HashType, b *testing
 		r.NoError(err)
 	}
 
-	_, err := NewTree(
+	tree, err := NewTree(
 		WithData(data),
 		WithHashType(hash),
 	)
+
+	_ = tree.Root()
 	r.NoError(err)
 }
 
 func BenchmarkMerkle(b *testing.B) {
-	sizes := []int{10, 20, 50, 100, 1000}
-	hashType := []HashType{sha3.New256(), sha3.New512(), blake2b.New(), blake3.New(), keccak256.New()}
+	sizes := []int{10, 20, 50, 100, 1_000, 10_000}
+	hashType := []HashType{sha3.New256(), sha3.New512(), blake2b.New(), blake3.New256(), blake3.New512(), keccak256.New()}
 	chunkSizes := []int{
-		1,                // 1 byte
-		1024,             // 1 kib
-		1024 * 10,        // 10 kb
-		1024 * 100,       // 100 kb
-		1024 * 1024,      // 1 mib
-		1024 * 1024 * 10, // 10 mib
+		1,           // 1 byte
+		1024,        // 1 kib
+		1024 * 10,   // 10 kb
+		1024 * 100,  // 100 kb
+		1024 * 1024, // 1 mib
 	}
 
 	for _, chunkSize := range chunkSizes {

@@ -20,5 +20,5 @@ import (
 )
 
 func TestHashLength(t *testing.T) {
-	assert.Equal(t, _hashlength, New().HashLength(), "incorrect hash length reported")
+	assert.Equal(t, _hashlength, New256().HashLength(), "incorrect hash length reported")
 }

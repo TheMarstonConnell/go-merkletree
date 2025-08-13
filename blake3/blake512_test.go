@@ -14,7 +14,6 @@
 package blake3_test
 
 import (
-	"encoding/hex"
 	"fmt"
 	"testing"
 
@@ -22,16 +21,7 @@ import (
 	"github.com/wealdtech/go-merkletree/v2/blake3"
 )
 
-// _byteArray is a helper to turn a string in to a byte array
-func _byteArray(input string) []byte {
-	x, err := hex.DecodeString(input)
-	if err != nil {
-		panic(err)
-	}
-	return x
-}
-
-func TestHash(t *testing.T) {
+func Test512Hash(t *testing.T) {
 	tests := []struct {
 		data   []byte
 		output []byte
@@ -42,15 +32,15 @@ func TestHash(t *testing.T) {
 		},
 	}
 
-	hash := blake3.New()
-	assert.Equal(t, "blake3", hash.HashName())
+	hash := blake3.New256()
+	assert.Equal(t, "blake3-512", hash.HashName())
 	for i, test := range tests {
 		output := hash.Hash(test.data)
 		assert.Equal(t, test.output, output, fmt.Sprintf("failed at test %d", i))
 	}
 }
 
-func TestMultiHash(t *testing.T) {
+func Test512MultiHash(t *testing.T) {
 	tests := []struct {
 		data1  []byte
 		data2  []byte
@@ -67,7 +57,7 @@ func TestMultiHash(t *testing.T) {
 		},
 	}
 
-	hash := blake3.New()
+	hash := blake3.New512()
 	for i, test := range tests {
 		output := hash.Hash(test.data1, test.data2, test.data3, test.data4)
 		assert.Equal(t, test.output, output, fmt.Sprintf("failed at test %d", i))
