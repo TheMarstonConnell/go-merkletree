@@ -23,6 +23,8 @@ const _hashlength = 32
 // BLAKE3 is the Blake3 hashing method.
 type BLAKE3 struct{}
 
+const Name256 = "blake3-256"
+
 // New256 creates a new Blake3 hashing method.
 func New256() *BLAKE3 {
 	return &BLAKE3{}
@@ -35,7 +37,7 @@ func (*BLAKE3) HashLength() int {
 
 // HashName returns the name of this hash.
 func (*BLAKE3) HashName() string {
-	return "blake3-256"
+	return Name256
 }
 
 // Hash generates a BLAKE2b hash from input byte arrays.

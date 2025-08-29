@@ -23,6 +23,8 @@ const _512hashlength = 64
 // BLAKE3_512 is the Blake3 hashing method with 512 bits.
 type BLAKE3_512 struct{}
 
+const Name512 = "blake3-512"
+
 // New512 creates a new Blake3 hashing method.
 func New512() *BLAKE3_512 {
 	return &BLAKE3_512{}
@@ -35,7 +37,7 @@ func (*BLAKE3_512) HashLength() int {
 
 // HashName returns the name of this hash.
 func (*BLAKE3_512) HashName() string {
-	return "blake3-512"
+	return Name512
 }
 
 // Hash generates a BLAKE2b hash from input byte arrays.
